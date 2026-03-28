@@ -57,6 +57,7 @@ const previewHandle   = previewModal.querySelector('.preview-modal__handle');
 const previewStats    = previewModal.querySelector('.preview-modal__stats');
 
 let previewUrls = [];
+let dragging = false;
 
 function openModal(entry) {
   if (!entry.compressedBlob) return;
@@ -90,8 +91,6 @@ document.addEventListener('keydown', e => {
 });
 
 // ─── Slider drag ─────────────────────────────────────────────────────────────
-
-let dragging = false;
 
 function setSplit(clientX) {
   const rect = previewImages.getBoundingClientRect();
