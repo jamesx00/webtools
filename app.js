@@ -46,77 +46,6 @@ const convertWebp = document.getElementById('convertWebp');
 const downloadAll = document.getElementById('downloadAll');
 const clearAllBtn = document.getElementById('clearAll');
 
-// ─── Preview modal ────────────────────────────────────────────────────────────
-
-const previewModal    = document.getElementById('previewModal');
-const previewBackdrop = previewModal.querySelector('.preview-modal__backdrop');
-const previewImages   = previewModal.querySelector('.preview-modal__images');
-const previewOriginal = previewModal.querySelector('.preview-modal__original');
-const previewCompressed = previewModal.querySelector('.preview-modal__compressed');
-const previewHandle   = previewModal.querySelector('.preview-modal__handle');
-const previewStats    = previewModal.querySelector('.preview-modal__stats');
-
-let previewUrls = [];
-let dragging = false;
-
-function openModal(entry) {
-  if (!entry.compressedBlob) return;
-  const origUrl = URL.createObjectURL(entry.originalFile);
-  const compUrl = URL.createObjectURL(entry.compressedBlob);
-  previewUrls = [origUrl, compUrl];
-
-  previewOriginal.src   = origUrl;
-  previewCompressed.src = compUrl;
-  previewImages.style.setProperty('--split', '50');
-
-  const filenameMap = uniqueFilenames(state.files);
-  previewStats.textContent =
-    `${filenameMap[entry.id]}  ·  ${formatBytes(entry.originalSize)} → ${formatBytes(entry.compressedSize)}`;
-
-  previewModal.hidden = false;
-}
-
-function closeModal() {
-  previewModal.hidden = true;
-  dragging = false;
-  previewUrls.forEach(url => URL.revokeObjectURL(url));
-  previewUrls = [];
-  previewOriginal.src   = '';
-  previewCompressed.src = '';
-}
-
-previewBackdrop.addEventListener('click', closeModal);
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape' && !previewModal.hidden) closeModal();
-});
-
-// ─── Slider drag ─────────────────────────────────────────────────────────────
-
-function setSplit(clientX) {
-  const rect = previewImages.getBoundingClientRect();
-  const val = Math.max(0, Math.min(100, (clientX - rect.left) / rect.width * 100));
-  previewImages.style.setProperty('--split', String(val));
-}
-
-previewHandle.addEventListener('mousedown', e => {
-  e.preventDefault();
-  dragging = true;
-});
-document.addEventListener('mousemove', e => {
-  if (dragging) setSplit(e.clientX);
-});
-document.addEventListener('mouseup', () => { dragging = false; });
-
-previewHandle.addEventListener('touchstart', e => {
-  e.preventDefault();
-  dragging = true;
-}, { passive: false });
-document.addEventListener('touchmove', e => {
-  if (dragging) setSplit(e.touches[0].clientX);
-}, { passive: true });
-document.addEventListener('touchend', () => { dragging = false; });
-document.addEventListener('touchcancel', () => { dragging = false; });
-
 // ─── Drop zone ────────────────────────────────────────────────────────────────
 
 dropzone.addEventListener('click', () => fileInput.click());
@@ -289,10 +218,6 @@ function buildCard(entry) {
     const url = URL.createObjectURL(entry.originalFile);
     img.src = url;
     img.onload = () => URL.revokeObjectURL(url);
-    if (entry.status === 'done') {
-      img.style.cursor = 'pointer';
-      img.addEventListener('click', () => openModal(entry));
-    }
     card.appendChild(img);
   } else {
     const thumb = document.createElement('div');
