@@ -76,6 +76,7 @@ function openModal(entry) {
 
 function closeModal() {
   previewModal.hidden = true;
+  dragging = false;
   previewUrls.forEach(url => URL.revokeObjectURL(url));
   previewUrls = [];
   previewOriginal.src   = '';
@@ -114,6 +115,7 @@ document.addEventListener('touchmove', e => {
   if (dragging) setSplit(e.touches[0].clientX);
 }, { passive: true });
 document.addEventListener('touchend', () => { dragging = false; });
+document.addEventListener('touchcancel', () => { dragging = false; });
 
 // ─── Drop zone ────────────────────────────────────────────────────────────────
 
