@@ -17,9 +17,9 @@
       <div class="dropzone__inner">
         <svg class="dropzone__icon" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
         <p class="dropzone__text">Drop images here or <span class="dropzone__browse">browse</span></p>
-        <p class="dropzone__hint">JPEG and PNG supported</p>
+        <p class="dropzone__hint">JPEG, PNG and WebP supported</p>
       </div>
-      <input type="file" id="fileInput" accept="image/jpeg,image/png" multiple hidden />
+      <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp" multiple hidden />
     </section>
 
     <section class="controls">
@@ -32,11 +32,11 @@
       </div>
       <div class="control-group">
         <label for="maxWidth" class="control-label">Max width (px)</label>
-        <input type="number" id="maxWidth" min="1" placeholder="No limit" class="number-input" />
+        <input type="number" id="maxWidth" min="1" value="2000" class="number-input" />
       </div>
       <div class="control-group control-group--inline">
         <label for="convertWebp" class="control-label">Convert to WebP</label>
-        <input type="checkbox" id="convertWebp" class="toggle" />
+        <input type="checkbox" id="convertWebp" class="toggle" checked />
       </div>
     </section>
 
@@ -49,8 +49,6 @@
     </section>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.2/dist/browser-image-compression.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
-  <script src="app.js"></script>
+  <script type="module" src="app.js"></script>
 </body>
 </html>

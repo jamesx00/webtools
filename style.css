@@ -1,19 +1,19 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg: #0f0f11;
-  --surface: #1a1a1f;
-  --surface2: #242429;
-  --border: #2e2e36;
-  --accent: #6c63ff;
-  --accent-hover: #7d75ff;
-  --text: #e8e8f0;
-  --text-muted: #888896;
-  --success: #22c55e;
-  --warning: #f59e0b;
-  --error: #ef4444;
-  --radius: 12px;
-  --radius-sm: 6px;
+  --bg: #ffffff;
+  --surface: #f5f5f5;
+  --surface2: #ebebeb;
+  --border: #d0d0d0;
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+  --text: #111111;
+  --text-muted: #666666;
+  --success: #16a34a;
+  --warning: #b45309;
+  --error: #dc2626;
+  --radius: 8px;
+  --radius-sm: 4px;
 }
 
 body {
@@ -243,8 +243,8 @@ body {
   padding: 2px 8px;
   border-radius: 20px;
 }
-.card__savings--good { background: rgba(34,197,94,0.15); color: var(--success); }
-.card__savings--warn { background: rgba(245,158,11,0.15); color: var(--warning); }
+.card__savings--good { background: #dcfce7; color: var(--success); }
+.card__savings--warn { background: #fef3c7; color: var(--warning); }
 .card__status { font-size: 13px; color: var(--text-muted); }
 .card__error { font-size: 13px; color: var(--error); }
 

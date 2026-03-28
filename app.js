@@ -1,3 +1,6 @@
+import imageCompression from 'browser-image-compression';
+import JSZip from 'jszip';
+
 // ─── State ────────────────────────────────────────────────────────────────────
 
 const state = {
@@ -100,7 +103,7 @@ clearAllBtn.addEventListener('click', () => {
 
 // ─── Ingest ───────────────────────────────────────────────────────────────────
 
-const SUPPORTED = ['image/jpeg', 'image/png'];
+const SUPPORTED = ['image/jpeg', 'image/png', 'image/webp'];
 
 function ingestFiles(files) {
   const entries = files.map(f => {
@@ -230,7 +233,7 @@ function buildCard(entry) {
   const name = document.createElement('div');
   name.className = 'card__name';
   name.title = entry.originalFile.name;
-  name.textContent = outputFilename(entry);
+  name.textContent = uniqueFilenames(state.files)[entry.id];
   info.appendChild(name);
 
   const meta = document.createElement('div');
@@ -290,6 +293,15 @@ function buildCard(entry) {
     dlBtn.addEventListener('click', () => downloadEntry(entry));
     actions.appendChild(dlBtn);
   }
+
+  const removeBtn = document.createElement('button');
+  removeBtn.className = 'btn btn--secondary btn--sm';
+  removeBtn.textContent = 'Remove';
+  removeBtn.addEventListener('click', () => {
+    state.files = state.files.filter(f => f.id !== entry.id);
+    renderQueue();
+  });
+  actions.appendChild(removeBtn);
   card.appendChild(actions);
 
   return card;
@@ -299,6 +311,25 @@ function outputFilename(entry) {
   const base = entry.originalFile.name.replace(/\.[^.]+$/, '');
   const ext = convertWebp.checked ? 'webp' : entry.originalFile.name.split('.').pop();
   return `${base}.${ext}`;
+}
+
+function uniqueFilenames(entries) {
+  const seen = {};
+  const result = {};
+  for (const entry of entries) {
+    const base = outputFilename(entry);
+    if (!(base in seen)) {
+      seen[base] = 0;
+      result[entry.id] = base;
+    } else {
+      seen[base]++;
+      const dot = base.lastIndexOf('.');
+      const stem = dot !== -1 ? base.slice(0, dot) : base;
+      const ext  = dot !== -1 ? base.slice(dot)   : '';
+      result[entry.id] = `${stem}-${seen[base]}${ext}`;
+    }
+  }
+  return result;
 }
 
 function formatBytes(bytes) {
@@ -313,7 +344,7 @@ function downloadEntry(entry) {
   const url = URL.createObjectURL(entry.compressedBlob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = outputFilename(entry);
+  a.download = uniqueFilenames(state.files)[entry.id];
   a.click();
   setTimeout(() => URL.revokeObjectURL(url), 10000);
 }
@@ -327,7 +358,8 @@ downloadAll.addEventListener('click', async () => {
 
   try {
     const zip = new JSZip();
-    done.forEach(entry => zip.file(outputFilename(entry), entry.compressedBlob));
+    const filenameMap = uniqueFilenames(state.files);
+    done.forEach(entry => zip.file(filenameMap[entry.id], entry.compressedBlob));
     const zipBlob = await zip.generateAsync({
       type: 'blob',
       compression: 'DEFLATE',
