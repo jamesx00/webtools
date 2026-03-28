@@ -59,6 +59,7 @@ const previewStats    = previewModal.querySelector('.preview-modal__stats');
 let previewUrls = [];
 
 function openModal(entry) {
+  if (!entry.compressedBlob) return;
   const origUrl = URL.createObjectURL(entry.originalFile);
   const compUrl = URL.createObjectURL(entry.compressedBlob);
   previewUrls = [origUrl, compUrl];
@@ -289,6 +290,10 @@ function buildCard(entry) {
     const url = URL.createObjectURL(entry.originalFile);
     img.src = url;
     img.onload = () => URL.revokeObjectURL(url);
+    if (entry.status === 'done') {
+      img.style.cursor = 'pointer';
+      img.addEventListener('click', () => openModal(entry));
+    }
     card.appendChild(img);
   } else {
     const thumb = document.createElement('div');
