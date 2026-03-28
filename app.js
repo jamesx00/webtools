@@ -46,6 +46,47 @@ const convertWebp = document.getElementById('convertWebp');
 const downloadAll = document.getElementById('downloadAll');
 const clearAllBtn = document.getElementById('clearAll');
 
+// ─── Preview modal ────────────────────────────────────────────────────────────
+
+const previewModal    = document.getElementById('previewModal');
+const previewBackdrop = previewModal.querySelector('.preview-modal__backdrop');
+const previewImages   = previewModal.querySelector('.preview-modal__images');
+const previewOriginal = previewModal.querySelector('.preview-modal__original');
+const previewCompressed = previewModal.querySelector('.preview-modal__compressed');
+const previewHandle   = previewModal.querySelector('.preview-modal__handle');
+const previewStats    = previewModal.querySelector('.preview-modal__stats');
+
+let previewUrls = [];
+
+function openModal(entry) {
+  const origUrl = URL.createObjectURL(entry.originalFile);
+  const compUrl = URL.createObjectURL(entry.compressedBlob);
+  previewUrls = [origUrl, compUrl];
+
+  previewOriginal.src   = origUrl;
+  previewCompressed.src = compUrl;
+  previewImages.style.setProperty('--split', '50');
+
+  const filenameMap = uniqueFilenames(state.files);
+  previewStats.textContent =
+    `${filenameMap[entry.id]}  ·  ${formatBytes(entry.originalSize)} → ${formatBytes(entry.compressedSize)}`;
+
+  previewModal.hidden = false;
+}
+
+function closeModal() {
+  previewModal.hidden = true;
+  previewUrls.forEach(url => URL.revokeObjectURL(url));
+  previewUrls = [];
+  previewOriginal.src   = '';
+  previewCompressed.src = '';
+}
+
+previewBackdrop.addEventListener('click', closeModal);
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && !previewModal.hidden) closeModal();
+});
+
 // ─── Drop zone ────────────────────────────────────────────────────────────────
 
 dropzone.addEventListener('click', () => fileInput.click());
