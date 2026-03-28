@@ -87,6 +87,34 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Escape' && !previewModal.hidden) closeModal();
 });
 
+// ─── Slider drag ─────────────────────────────────────────────────────────────
+
+let dragging = false;
+
+function setSplit(clientX) {
+  const rect = previewImages.getBoundingClientRect();
+  const val = Math.max(0, Math.min(100, (clientX - rect.left) / rect.width * 100));
+  previewImages.style.setProperty('--split', String(val));
+}
+
+previewHandle.addEventListener('mousedown', e => {
+  e.preventDefault();
+  dragging = true;
+});
+document.addEventListener('mousemove', e => {
+  if (dragging) setSplit(e.clientX);
+});
+document.addEventListener('mouseup', () => { dragging = false; });
+
+previewHandle.addEventListener('touchstart', e => {
+  e.preventDefault();
+  dragging = true;
+}, { passive: false });
+document.addEventListener('touchmove', e => {
+  if (dragging) setSplit(e.touches[0].clientX);
+}, { passive: true });
+document.addEventListener('touchend', () => { dragging = false; });
+
 // ─── Drop zone ────────────────────────────────────────────────────────────────
 
 dropzone.addEventListener('click', () => fileInput.click());
