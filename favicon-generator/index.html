@@ -39,6 +39,15 @@
 
       <section class="preview" id="preview" hidden>
         <div class="preview__grid" id="previewGrid"></div>
+
+        <div class="snippet">
+          <div class="snippet__head">
+            <label for="snippetOutput" class="control-label">HTML to paste in &lt;head&gt;</label>
+            <button class="btn btn--secondary btn--sm" id="snippetCopyBtn" type="button">Copy</button>
+          </div>
+          <textarea id="snippetOutput" class="textarea" rows="6" readonly></textarea>
+        </div>
+
         <div class="preview__actions">
           <button class="btn btn--secondary" id="clearAll">Clear</button>
           <button class="btn btn--primary" id="downloadAll">Download All (.zip)</button>

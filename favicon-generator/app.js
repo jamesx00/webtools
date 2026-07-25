@@ -21,13 +21,15 @@ const state = {
   generated: [], // { size, name, blob, url }
 };
 
-const dropzone     = document.getElementById('dropzone');
-const fileInput    = document.getElementById('fileInput');
-const errorEl      = document.getElementById('error');
-const previewEl    = document.getElementById('preview');
-const previewGrid  = document.getElementById('previewGrid');
-const clearAllBtn  = document.getElementById('clearAll');
-const downloadAll  = document.getElementById('downloadAll');
+const dropzone      = document.getElementById('dropzone');
+const fileInput     = document.getElementById('fileInput');
+const errorEl       = document.getElementById('error');
+const previewEl     = document.getElementById('preview');
+const previewGrid   = document.getElementById('previewGrid');
+const clearAllBtn   = document.getElementById('clearAll');
+const downloadAll   = document.getElementById('downloadAll');
+const snippetOutput = document.getElementById('snippetOutput');
+const snippetCopyBtn = document.getElementById('snippetCopyBtn');
 
 // ─── Drop zone ────────────────────────────────────────────────────────────────
 
@@ -144,6 +146,7 @@ function renderPreview() {
   previewGrid.innerHTML = '';
   state.generated.forEach(item => previewGrid.appendChild(buildPreviewCard(item)));
   previewEl.hidden = state.generated.length === 0;
+  snippetOutput.value = state.generated.length ? LINK_SNIPPET.trim() : '';
 }
 
 function buildPreviewCard(item) {
@@ -189,6 +192,13 @@ function resetGenerated() {
 clearAllBtn.addEventListener('click', () => {
   resetGenerated();
   clearError();
+});
+
+snippetCopyBtn.addEventListener('click', async () => {
+  await navigator.clipboard.writeText(snippetOutput.value);
+  const original = snippetCopyBtn.textContent;
+  snippetCopyBtn.textContent = 'Copied!';
+  setTimeout(() => { snippetCopyBtn.textContent = original; }, 1200);
 });
 
 // ─── Download all ─────────────────────────────────────────────────────────────
