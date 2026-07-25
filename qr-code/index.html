@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>QR Code Generator — Webtools</title>
+    <link rel="stylesheet" href="style.css"/>
+  </head>
+  <body>
+    <div class="app">
+      <a class="back-link" href="../">&larr; Webtools</a>
+      <header class="header">
+        <h1>QR Code Generator</h1>
+        <p class="subtitle">Turn any text or URL into a downloadable QR code, generated entirely in your browser.</p>
+      </header>
+
+      <section class="panel">
+        <div class="field">
+          <label for="text" class="control-label">Text or URL</label>
+          <textarea id="text" class="textarea" rows="4" placeholder="https://example.com"></textarea>
+        </div>
+
+        <div class="controls">
+          <div class="control-group">
+            <label for="size" class="control-label">
+              Size
+              <span class="control-value" id="sizeValue">280</span>
+            </label>
+            <input type="range" id="size" min="120" max="600" step="20" value="280" class="slider"/>
+          </div>
+          <div class="control-group">
+            <label for="ecLevel" class="control-label">Error correction</label>
+            <select id="ecLevel" class="select">
+              <option value="L">Low</option>
+              <option value="M" selected>Medium</option>
+              <option value="Q">Quartile</option>
+              <option value="H">High</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="preview" id="preview">
+          <p class="preview__empty" id="previewEmpty">Enter some text to generate a QR code</p>
+          <canvas id="canvas" hidden></canvas>
+        </div>
+
+        <div class="actions">
+          <button class="btn btn--primary" id="downloadBtn" disabled>Download PNG</button>
+        </div>
+      </section>
+    </div>
+
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

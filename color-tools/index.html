@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Color Tools — Webtools</title>
+    <link rel="stylesheet" href="style.css"/>
+  </head>
+  <body>
+    <div class="app">
+      <a class="back-link" href="../">&larr; Webtools</a>
+      <header class="header">
+        <h1>Color Tools</h1>
+        <p class="subtitle">Pick colors, convert between hex, RGB and HSL, and check contrast ratios against WCAG guidelines.</p>
+      </header>
+
+      <section class="panel">
+        <h2 class="panel__title">Converter</h2>
+        <div class="converter">
+          <label class="swatch" for="colorPicker" style="background: #2563eb">
+            <input type="color" id="colorPicker" value="#2563eb"/>
+          </label>
+          <div class="fields">
+            <div class="field">
+              <label for="hexInput" class="control-label">Hex</label>
+              <input type="text" id="hexInput" class="text-input" value="#2563eb"/>
+            </div>
+            <div class="field">
+              <label for="rgbInput" class="control-label">RGB</label>
+              <input type="text" id="rgbInput" class="text-input" value="rgb(37, 99, 235)"/>
+            </div>
+            <div class="field">
+              <label for="hslInput" class="control-label">HSL</label>
+              <input type="text" id="hslInput" class="text-input" value="hsl(221, 83%, 53%)"/>
+            </div>
+          </div>
+        </div>
+        <p class="error" id="converterError" hidden></p>
+      </section>
+
+      <section class="panel">
+        <h2 class="panel__title">Contrast checker</h2>
+        <div class="contrast">
+          <div class="contrast__color">
+            <label class="swatch swatch--sm" for="fgPicker" style="background: #111111">
+              <input type="color" id="fgPicker" value="#111111"/>
+            </label>
+            <div class="field">
+              <label for="fgInput" class="control-label">Foreground</label>
+              <input type="text" id="fgInput" class="text-input" value="#111111"/>
+            </div>
+          </div>
+          <div class="contrast__color">
+            <label class="swatch swatch--sm" for="bgPicker" style="background: #ffffff">
+              <input type="color" id="bgPicker" value="#ffffff"/>
+            </label>
+            <div class="field">
+              <label for="bgInput" class="control-label">Background</label>
+              <input type="text" id="bgInput" class="text-input" value="#ffffff"/>
+            </div>
+          </div>
+        </div>
+
+        <div class="contrast__preview" id="contrastPreview">
+          <span id="contrastSample">Aa</span>
+        </div>
+
+        <div class="contrast__result">
+          <span class="contrast__ratio" id="ratioValue">21.00</span>
+          <span class="contrast__ratio-label">:1</span>
+        </div>
+
+        <div class="badges">
+          <span class="badge" id="badgeAA">AA (normal)</span>
+          <span class="badge" id="badgeAALarge">AA (large)</span>
+          <span class="badge" id="badgeAAA">AAA (normal)</span>
+          <span class="badge" id="badgeAAALarge">AAA (large)</span>
+        </div>
+      </section>
+    </div>
+
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

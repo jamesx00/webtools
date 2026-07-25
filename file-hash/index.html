@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>File Hash — Webtools</title>
+    <link rel="stylesheet" href="style.css"/>
+  </head>
+  <body>
+    <div class="app">
+      <a class="back-link" href="../">&larr; Webtools</a>
+      <header class="header">
+        <h1>File Hash</h1>
+        <p class="subtitle">Drop a file and instantly get its checksums, computed locally to verify downloads and integrity.</p>
+      </header>
+
+      <section class="dropzone" id="dropzone" role="button" tabindex="0" aria-label="Drop a file here or click to browse">
+        <div class="dropzone__inner">
+          <svg
+            class="dropzone__icon"
+            xmlns="http://www.w3.org/2000/svg"
+            width="48"
+            height="48"
+            viewbox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          <p class="dropzone__text">Drop a file here or
+            <span class="dropzone__browse">browse</span>
+          </p>
+          <p class="dropzone__hint">Any file type &mdash; nothing leaves your browser</p>
+        </div>
+        <input type="file" id="fileInput" hidden/>
+      </section>
+
+      <section class="result" id="result" hidden>
+        <div class="result__file">
+          <span class="result__name" id="fileName"></span>
+          <span class="result__size" id="fileSize"></span>
+          <span class="spinner" id="spinner" hidden></span>
+        </div>
+
+        <div class="hash-list" id="hashList"></div>
+      </section>
+    </div>
+
+    <script type="module" src="app.js"></script>
+  </body>
+</html>
