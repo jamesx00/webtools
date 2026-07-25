@@ -25,6 +25,7 @@ export default defineConfig({
         markdownPreview: page('markdown-preview'),
         csvJson: page('csv-json'),
         loremIpsum: page('lorem-ipsum'),
+        fakeDataGenerator: page('fake-data-generator'),
         uuidGenerator: page('uuid-generator'),
         imageResizer: page('image-resizer'),
         faviconGenerator: page('favicon-generator'),

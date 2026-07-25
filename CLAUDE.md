@@ -20,7 +20,7 @@ npm run build  # production build → dist/
 ## Structure
 
 - `/` — home page (`index.html` + `style.css`) listing all tools as cards.
-- `/image-compressor/`, `/qr-code/`, `/encode-decode/`, `/color-tools/`, `/file-hash/`, `/json-formatter/`, `/text-diff/`, `/case-converter/`, `/jwt-decoder/`, `/regex-tester/`, `/cron-parser/`, `/timestamp-converter/`, `/markdown-preview/`, `/csv-json/`, `/lorem-ipsum/`, `/uuid-generator/`, `/image-resizer/`, `/favicon-generator/`, `/svg-optimizer/`, `/image-base64/`, `/exif-viewer/`, `/password-generator/`, `/unit-converter/`, `/css-gradient/` — each a self-contained tool (own `app.js` + `style.css`).
+- `/image-compressor/`, `/qr-code/`, `/encode-decode/`, `/color-tools/`, `/file-hash/`, `/json-formatter/`, `/text-diff/`, `/case-converter/`, `/jwt-decoder/`, `/regex-tester/`, `/cron-parser/`, `/timestamp-converter/`, `/markdown-preview/`, `/csv-json/`, `/lorem-ipsum/`, `/fake-data-generator/`, `/uuid-generator/`, `/image-resizer/`, `/favicon-generator/`, `/svg-optimizer/`, `/image-base64/`, `/exif-viewer/`, `/password-generator/`, `/unit-converter/`, `/css-gradient/` — each a self-contained tool (own `app.js` + `style.css`).
 - Each tool is a real folder with its own `index.html`, listed as an entry in `vite.config.js`'s `rollupOptions.input` so `npm run build` emits it. **New tool = new folder + new entry in `vite.config.js`.**
 - No shared JS between tools; each tool folder is self-contained, including its own `style.css` (duplicated `:root` variables etc.). Only the variable names/patterns are informally shared by convention. The root `style.css` only styles the home page.
 
@@ -64,3 +64,9 @@ All 19 built to the same self-contained-folder convention, no new npm dependenci
 - **Cron parsing** (cron-parser): supports `*`, lists, ranges, and steps per field; next-run-times are brute-forced minute-by-minute (capped at ~2 years) rather than computed analytically.
 - **Favicon ZIP**: uses the existing `jszip` dependency to bundle generated PNG sizes (16–512px) plus a ready-to-paste `<link>` snippet, same generate/download pattern as image-compressor's batch ZIP.
 - **Unit conversion**: length/weight/volume/data-storage use factor-to-base-unit tables; temperature is a special case (formulas via a Celsius pivot, not a multiplier). Data storage uses 1024-based multiples.
+
+## Key decisions (fake-data-generator)
+
+- Split out of lorem-ipsum's original "Fake Data" tab into its own tool; lorem-ipsum is now lorem-only.
+- Field selection via checkboxes (`FIELDS` array of `{id, label}`) — `generatePerson()` always computes the full superset of fields; selection only filters which columns are rendered/exported, so toggling fields doesn't require regenerating data. Default-checked: Full Name, Email, Phone, Street Address, City, Company (matches the original fixed column set).
+- Table headers are rendered dynamically from the selected fields, same for CSV export.

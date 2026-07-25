@@ -64,22 +64,38 @@ body {
   letter-spacing: 0.05em;
 }
 
-.textarea {
+.field-select-actions { display: flex; gap: 12px; }
+
+.btn-link {
+  background: none;
+  border: none;
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+}
+.btn-link:hover { color: var(--accent-hover); text-decoration: underline; }
+
+.field-select-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 10px 16px;
   background: var(--surface2);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
-  color: var(--text);
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 13px;
-  padding: 10px 12px;
-  resize: vertical;
-  outline: none;
-  transition: border-color 0.15s;
+  padding: 14px 16px;
 }
-.textarea:focus { border-color: var(--accent); }
-.textarea[readonly] { background: var(--bg); }
 
-.actions { display: flex; gap: 10px; }
+.field-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  color: var(--text);
+  cursor: pointer;
+}
+.field-checkbox input { accent-color: var(--accent); cursor: pointer; }
 
 .error { color: var(--error); font-size: 13px; }
 
@@ -100,7 +116,6 @@ body {
 .btn--primary:hover { background: var(--accent-hover); }
 .btn--secondary { background: transparent; color: var(--text-muted); border-color: var(--border); }
 .btn--secondary:hover { color: var(--text); border-color: var(--text-muted); }
-.btn--sm { padding: 5px 12px; font-size: 12px; }
 
 .controls-row {
   display: flex;
@@ -109,7 +124,6 @@ body {
   flex-wrap: wrap;
 }
 
-.select,
 .number-input {
   background: var(--surface2);
   border: 1px solid var(--border);
@@ -120,8 +134,38 @@ body {
   padding: 9px 10px;
   outline: none;
   transition: border-color 0.15s;
+  width: 90px;
 }
-.select:focus,
 .number-input:focus { border-color: var(--accent); }
 
-.number-input { width: 90px; }
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.data-table th,
+.data-table td {
+  text-align: left;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.data-table th {
+  background: var(--surface2);
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.data-table tbody tr:last-child td { border-bottom: none; }
+.data-table tbody tr:hover { background: var(--surface2); }

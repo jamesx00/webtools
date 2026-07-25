@@ -11,15 +11,10 @@
       <a class="back-link" href="../">&larr; Webtools</a>
       <header class="header">
         <h1>Lorem Ipsum Generator</h1>
-        <p class="subtitle">Generate placeholder text or sample fake data — entirely offline.</p>
+        <p class="subtitle">Generate placeholder text — entirely offline.</p>
       </header>
 
-      <div class="tabs" id="tabs" role="tablist">
-        <button class="tab tab--active" data-mode="lorem" role="tab" aria-selected="true">Lorem Ipsum</button>
-        <button class="tab" data-mode="fake" role="tab" aria-selected="false">Fake Data</button>
-      </div>
-
-      <section class="panel" id="loremPanel">
+      <section class="panel">
         <div class="field">
           <div class="field__head">
             <label for="loremUnit" class="control-label">Options</label>
@@ -41,40 +36,6 @@
             <button class="btn btn--secondary btn--sm" id="loremCopy">Copy</button>
           </div>
           <textarea id="loremOutput" class="textarea" rows="10" readonly placeholder="Generated text appears here&hellip;"></textarea>
-        </div>
-      </section>
-
-      <section class="panel" id="fakePanel" hidden>
-        <div class="field">
-          <div class="field__head">
-            <label for="fakeRows" class="control-label">Options</label>
-          </div>
-          <div class="controls-row">
-            <input type="number" id="fakeRows" class="number-input" min="1" max="200" value="10"/>
-            <button class="btn btn--primary" id="fakeGenerate">Generate</button>
-            <button class="btn btn--secondary" id="fakeCopyCsv">Copy as CSV</button>
-          </div>
-        </div>
-
-        <div class="field">
-          <div class="field__head">
-            <label class="control-label">Output</label>
-          </div>
-          <div class="table-wrap">
-            <table class="data-table" id="fakeTable">
-              <thead>
-                <tr>
-                  <th>Full Name</th>
-                  <th>Email</th>
-                  <th>Phone</th>
-                  <th>Street Address</th>
-                  <th>City</th>
-                  <th>Company</th>
-                </tr>
-              </thead>
-              <tbody id="fakeTableBody"></tbody>
-            </table>
-          </div>
         </div>
       </section>
     </div>
