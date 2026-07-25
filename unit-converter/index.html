@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Unit Converter — Webtools</title>
+    <link rel="stylesheet" href="style.css"/>
+  </head>
+  <body>
+    <div class="app">
+      <a class="back-link" href="../">&larr; Webtools</a>
+      <header class="header">
+        <h1>Unit Converter</h1>
+        <p class="subtitle">Convert between common units of length, weight, temperature, volume, and data storage.</p>
+      </header>
+
+      <section class="panel">
+        <div class="tabs" id="tabs" role="tablist">
+          <button class="tab tab--active" data-category="length" role="tab" aria-selected="true">Length</button>
+          <button class="tab" data-category="weight" role="tab" aria-selected="false">Weight / Mass</button>
+          <button class="tab" data-category="temperature" role="tab" aria-selected="false">Temperature</button>
+          <button class="tab" data-category="volume" role="tab" aria-selected="false">Volume</button>
+          <button class="tab" data-category="data" role="tab" aria-selected="false">Data Storage</button>
+        </div>
+
+        <div class="converter">
+          <div class="field">
+            <label class="control-label" for="fromValue">From</label>
+            <div class="control-row">
+              <input type="number" id="fromValue" class="input" value="1" inputmode="decimal"/>
+              <select id="fromUnit" class="select"></select>
+            </div>
+          </div>
+
+          <button type="button" class="swap-btn" id="swapBtn" aria-label="Swap units" title="Swap units">&#8597;</button>
+
+          <div class="field">
+            <label class="control-label" for="toValue">To</label>
+            <div class="control-row">
+              <input type="text" id="toValue" class="input" readonly/>
+              <select id="toUnit" class="select"></select>
+            </div>
+          </div>
+        </div>
+
+        <p class="error" id="error" hidden></p>
+      </section>
+    </div>
+
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Case Converter — Webtools</title>
+    <link rel="stylesheet" href="style.css"/>
+  </head>
+  <body>
+    <div class="app">
+      <a class="back-link" href="../">&larr; Webtools</a>
+      <header class="header">
+        <h1>Case Converter</h1>
+        <p class="subtitle">Convert text between camelCase, snake_case, kebab-case, Title Case, and more — plus slugify.</p>
+      </header>
+
+      <section class="panel">
+        <div class="field">
+          <div class="field__head">
+            <label for="input" class="control-label">Input text</label>
+          </div>
+          <textarea id="input" class="textarea" rows="4" placeholder="Type or paste text here&hellip;"></textarea>
+        </div>
+
+        <div class="results" id="results"></div>
+      </section>
+    </div>
+
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Text Diff — Webtools</title>
+    <link rel="stylesheet" href="style.css"/>
+  </head>
+  <body>
+    <div class="app">
+      <a class="back-link" href="../">&larr; Webtools</a>
+      <header class="header">
+        <h1>Text Diff</h1>
+        <p class="subtitle">Compare two blocks of text and see line-by-line differences, plus word and character counts.</p>
+      </header>
+
+      <section class="panel">
+        <div class="diff-grid">
+          <div class="field">
+            <div class="field__head">
+              <label for="textA" class="control-label">Text A</label>
+            </div>
+            <textarea id="textA" class="textarea" rows="12" placeholder="Paste original text here&hellip;"></textarea>
+            <p class="stats" id="statsA"></p>
+          </div>
+
+          <div class="field">
+            <div class="field__head">
+              <label for="textB" class="control-label">Text B</label>
+            </div>
+            <textarea id="textB" class="textarea" rows="12" placeholder="Paste changed text here&hellip;"></textarea>
+            <p class="stats" id="statsB"></p>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="btn btn--primary" id="compareBtn">Compare</button>
+          <button class="btn btn--secondary" id="swapBtn">Swap</button>
+        </div>
+
+        <div class="field">
+          <div class="field__head">
+            <label class="control-label">Diff</label>
+          </div>
+          <div class="diff" id="diffOutput"></div>
+        </div>
+      </section>
+    </div>
+
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

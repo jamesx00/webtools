@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Image ⇄ Base64 — Webtools</title>
+    <link rel="stylesheet" href="style.css"/>
+  </head>
+  <body>
+    <div class="app">
+      <a class="back-link" href="../">&larr; Webtools</a>
+      <header class="header">
+        <h1>Image ⇄ Base64</h1>
+        <p class="subtitle">Convert an image file to a Base64 data URI, or paste one back into an image.</p>
+      </header>
+
+      <div class="tabs" id="tabs" role="tablist">
+        <button class="tab tab--active" data-tab="encode" role="tab" aria-selected="true">Image &rarr; Base64</button>
+        <button class="tab" data-tab="decode" role="tab" aria-selected="false">Base64 &rarr; Image</button>
+      </div>
+
+      <section class="panel" id="encodePanel">
+        <div class="dropzone" id="dropzone" role="button" tabindex="0" aria-label="Drop an image here or click to browse">
+          <div class="dropzone__inner">
+            <svg
+              class="dropzone__icon"
+              xmlns="http://www.w3.org/2000/svg"
+              width="48"
+              height="48"
+              viewbox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <p class="dropzone__text">Drop an image here or
+              <span class="dropzone__browse">browse</span>
+            </p>
+            <p class="dropzone__hint">Any image file &mdash; nothing leaves your browser</p>
+          </div>
+          <input type="file" id="fileInput" accept="image/*" hidden/>
+        </div>
+
+        <div class="encode-result" id="encodeResult" hidden>
+          <div class="preview-row">
+            <img class="preview-img" id="previewImg" alt="Preview"/>
+            <div class="file-meta">
+              <div class="file-meta__name" id="fileName"></div>
+              <div class="file-meta__detail" id="fileDetail"></div>
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="field__head">
+              <label for="dataUriOutput" class="control-label">Data URI</label>
+              <button class="btn btn--secondary btn--sm" id="copyBtn">Copy</button>
+            </div>
+            <textarea id="dataUriOutput" class="textarea" rows="8" readonly></textarea>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="decodePanel" hidden>
+        <div class="field">
+          <div class="field__head">
+            <label for="base64Input" class="control-label">Base64 or Data URI</label>
+            <select id="mimeSelect" class="mime-select">
+              <option value="image/png">image/png</option>
+              <option value="image/jpeg">image/jpeg</option>
+              <option value="image/webp">image/webp</option>
+              <option value="image/gif">image/gif</option>
+              <option value="image/svg+xml">image/svg+xml</option>
+            </select>
+          </div>
+          <textarea id="base64Input" class="textarea" rows="8" placeholder="Paste a data:image/...;base64,... URI or raw base64&hellip;"></textarea>
+          <p class="error" id="decodeError" hidden></p>
+        </div>
+
+        <div class="decode-result" id="decodeResult" hidden>
+          <img class="preview-img" id="decodedImg" alt="Decoded preview"/>
+          <button class="btn btn--primary" id="downloadBtn">Download</button>
+        </div>
+      </section>
+    </div>
+
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

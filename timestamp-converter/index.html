@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Timestamp Converter — Webtools</title>
+    <link rel="stylesheet" href="style.css"/>
+  </head>
+  <body>
+    <div class="app">
+      <a class="back-link" href="../">&larr; Webtools</a>
+      <header class="header">
+        <h1>Timestamp Converter</h1>
+        <p class="subtitle">Convert between Unix timestamps, ISO 8601, and human-readable dates.</p>
+      </header>
+
+      <section class="panel now-panel">
+        <div class="field__head">
+          <span class="control-label">Right now</span>
+          <button class="btn btn--secondary btn--sm" id="useNowBtn">Use now</button>
+        </div>
+        <div class="now-grid">
+          <div class="now-item">
+            <span class="now-label">Unix (s)</span>
+            <span class="now-value" id="nowSeconds">&mdash;</span>
+          </div>
+          <div class="now-item">
+            <span class="now-label">Unix (ms)</span>
+            <span class="now-value" id="nowMs">&mdash;</span>
+          </div>
+          <div class="now-item">
+            <span class="now-label">ISO</span>
+            <span class="now-value" id="nowIso">&mdash;</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2 class="section-title">Unix &rarr; Date</h2>
+
+        <div class="field">
+          <label for="unixInput" class="control-label">Unix timestamp</label>
+          <input type="number" id="unixInput" class="text-input" placeholder="e.g. 1700000000 or 1700000000000" inputmode="numeric"/>
+        </div>
+
+        <div class="field">
+          <div class="field__head">
+            <span class="control-label">ISO 8601 (UTC)</span>
+            <button class="btn btn--secondary btn--sm copy-btn" data-target="outIso">Copy</button>
+          </div>
+          <div class="output-value" id="outIso">&mdash;</div>
+        </div>
+
+        <div class="field">
+          <div class="field__head">
+            <span class="control-label">UTC</span>
+            <button class="btn btn--secondary btn--sm copy-btn" data-target="outUtc">Copy</button>
+          </div>
+          <div class="output-value" id="outUtc">&mdash;</div>
+        </div>
+
+        <div class="field">
+          <div class="field__head">
+            <span class="control-label">Local time</span>
+            <button class="btn btn--secondary btn--sm copy-btn" data-target="outLocal">Copy</button>
+          </div>
+          <div class="output-value" id="outLocal">&mdash;</div>
+        </div>
+
+        <div class="field">
+          <div class="field__head">
+            <span class="control-label">Relative</span>
+            <button class="btn btn--secondary btn--sm copy-btn" data-target="outRelative">Copy</button>
+          </div>
+          <div class="output-value" id="outRelative">&mdash;</div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2 class="section-title">Date &rarr; Unix</h2>
+
+        <div class="field">
+          <label for="dateInput" class="control-label">Date &amp; time</label>
+          <input type="datetime-local" id="dateInput" class="text-input"/>
+        </div>
+
+        <label class="checkbox-field" for="utcCheckbox">
+          <input type="checkbox" id="utcCheckbox"/>
+          <span>Treat as UTC</span>
+        </label>
+
+        <div class="field">
+          <div class="field__head">
+            <span class="control-label">Unix (seconds)</span>
+            <button class="btn btn--secondary btn--sm copy-btn" data-target="outUnixSeconds">Copy</button>
+          </div>
+          <div class="output-value" id="outUnixSeconds">&mdash;</div>
+        </div>
+
+        <div class="field">
+          <div class="field__head">
+            <span class="control-label">Unix (milliseconds)</span>
+            <button class="btn btn--secondary btn--sm copy-btn" data-target="outUnixMs">Copy</button>
+          </div>
+          <div class="output-value" id="outUnixMs">&mdash;</div>
+        </div>
+      </section>
+    </div>
+
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

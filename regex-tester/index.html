@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Regex Tester — Webtools</title>
+    <link rel="stylesheet" href="style.css"/>
+  </head>
+  <body>
+    <div class="app">
+      <a class="back-link" href="../">&larr; Webtools</a>
+      <header class="header">
+        <h1>Regex Tester</h1>
+        <p class="subtitle">Test a regular expression against sample text with live match highlighting.</p>
+      </header>
+
+      <section class="panel">
+        <div class="field-row">
+          <div class="field field--pattern">
+            <label for="pattern" class="control-label">Pattern</label>
+            <input id="pattern" class="text-input" type="text" placeholder="e.g. \d+" spellcheck="false" autocomplete="off"/>
+          </div>
+          <div class="field field--flags">
+            <label for="flags" class="control-label">Flags</label>
+            <input id="flags" class="text-input" type="text" value="g" spellcheck="false" autocomplete="off"/>
+          </div>
+        </div>
+        <p class="error" id="patternError" hidden></p>
+
+        <div class="field">
+          <label for="testText" class="control-label">Test text</label>
+          <textarea id="testText" class="textarea" rows="8" placeholder="Paste text to test against&hellip;"></textarea>
+        </div>
+
+        <div class="field">
+          <div class="control-label">Highlighted matches</div>
+          <div class="highlight-output" id="highlightOutput"></div>
+        </div>
+
+        <div class="field">
+          <div class="control-label">Matches</div>
+          <div class="match-list" id="matchList"></div>
+        </div>
+      </section>
+    </div>
+
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Favicon Generator — Webtools</title>
+    <link rel="stylesheet" href="style.css"/>
+  </head>
+  <body>
+    <div class="app">
+      <a class="back-link" href="../">&larr; Webtools</a>
+      <header class="header">
+        <h1>Favicon Generator</h1>
+        <p class="subtitle">Generate a full set of favicon sizes from one image and download them as a ZIP.</p>
+      </header>
+
+      <section class="dropzone" id="dropzone" role="button" tabindex="0" aria-label="Drop an image here or click to browse">
+        <div class="dropzone__inner">
+          <svg
+            class="dropzone__icon"
+            xmlns="http://www.w3.org/2000/svg"
+            width="48"
+            height="48"
+            viewbox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          <p class="dropzone__text">Drop an image here or
+            <span class="dropzone__browse">browse</span>
+          </p>
+          <p class="dropzone__hint">Any image, ideally square &mdash; non-square images are center-cropped</p>
+        </div>
+        <input type="file" id="fileInput" accept="image/*" hidden/>
+      </section>
+
+      <p class="error" id="error" hidden></p>
+
+      <section class="preview" id="preview" hidden>
+        <div class="preview__grid" id="previewGrid"></div>
+        <div class="preview__actions">
+          <button class="btn btn--secondary" id="clearAll">Clear</button>
+          <button class="btn btn--primary" id="downloadAll">Download All (.zip)</button>
+        </div>
+      </section>
+    </div>
+
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

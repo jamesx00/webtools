@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Cron Parser — Webtools</title>
+    <link rel="stylesheet" href="style.css"/>
+  </head>
+  <body>
+    <div class="app">
+      <a class="back-link" href="../">&larr; Webtools</a>
+      <header class="header">
+        <h1>Cron Parser</h1>
+        <p class="subtitle">Explain a cron expression in plain English and preview its next run times.</p>
+      </header>
+
+      <section class="panel">
+        <div class="field">
+          <div class="field__head">
+            <label for="cronInput" class="control-label">Cron expression</label>
+          </div>
+          <input type="text" id="cronInput" class="text-input" placeholder="*/15 9-17 * * 1-5" autocomplete="off" spellcheck="false"/>
+          <p class="field-hint">minute hour day-of-month month day-of-week</p>
+          <p class="error" id="error" hidden></p>
+        </div>
+
+        <div class="field" id="descriptionField" hidden>
+          <div class="field__head">
+            <span class="control-label">Description</span>
+          </div>
+          <p class="description-text" id="description"></p>
+        </div>
+
+        <div class="field" id="runsField" hidden>
+          <div class="field__head">
+            <span class="control-label">Next 5 run times</span>
+          </div>
+          <ol class="run-list" id="runList"></ol>
+        </div>
+      </section>
+    </div>
+
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

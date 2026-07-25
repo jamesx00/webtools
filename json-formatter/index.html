@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>JSON Formatter — Webtools</title>
+    <link rel="stylesheet" href="style.css"/>
+  </head>
+  <body>
+    <div class="app">
+      <a class="back-link" href="../">&larr; Webtools</a>
+      <header class="header">
+        <h1>JSON Formatter</h1>
+        <p class="subtitle">Format, validate, and minify JSON with clear error messages.</p>
+      </header>
+
+      <section class="panel">
+        <div class="field">
+          <div class="field__head">
+            <label for="input" class="control-label">Input</label>
+            <span class="status" id="status">&mdash;</span>
+          </div>
+          <textarea id="input" class="textarea" rows="12" placeholder="Paste JSON here&hellip;"></textarea>
+        </div>
+
+        <div class="actions">
+          <button class="btn btn--primary" id="formatBtn">Format</button>
+          <button class="btn btn--primary" id="minifyBtn">Minify</button>
+        </div>
+
+        <div class="field">
+          <div class="field__head">
+            <label for="output" class="control-label">Output</label>
+            <button class="btn btn--secondary btn--sm" id="copyBtn">Copy</button>
+          </div>
+          <textarea id="output" class="textarea" rows="12" readonly placeholder="Result appears here&hellip;"></textarea>
+          <p class="error" id="error" hidden></p>
+        </div>
+      </section>
+    </div>
+
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

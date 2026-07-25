@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>CSV ⇄ JSON — Webtools</title>
+    <link rel="stylesheet" href="style.css"/>
+  </head>
+  <body>
+    <div class="app">
+      <a class="back-link" href="../">&larr; Webtools</a>
+      <header class="header">
+        <h1>CSV ⇄ JSON</h1>
+        <p class="subtitle">Convert between CSV and JSON, handling quoted fields and commas.</p>
+      </header>
+
+      <div class="tabs" id="tabs" role="tablist">
+        <button class="tab" data-mode="csv2json" role="tab" aria-selected="true">CSV → JSON</button>
+        <button class="tab" data-mode="json2csv" role="tab" aria-selected="false">JSON → CSV</button>
+      </div>
+
+      <section class="panel">
+        <div class="field">
+          <div class="field__head">
+            <label for="input" class="control-label">Input</label>
+          </div>
+          <textarea id="input" class="textarea" rows="8" placeholder="Paste text here&hellip;"></textarea>
+        </div>
+
+        <div class="actions" id="actions"></div>
+
+        <div class="field">
+          <div class="field__head">
+            <label for="output" class="control-label">Output</label>
+            <button class="btn btn--secondary btn--sm" id="copyBtn">Copy</button>
+          </div>
+          <textarea id="output" class="textarea" rows="8" readonly placeholder="Result appears here&hellip;"></textarea>
+          <p class="error" id="error" hidden></p>
+        </div>
+      </section>
+    </div>
+
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

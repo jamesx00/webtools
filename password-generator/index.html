@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Password Generator — Webtools</title>
+    <link rel="stylesheet" href="style.css"/>
+  </head>
+  <body>
+    <div class="app">
+      <a class="back-link" href="../">&larr; Webtools</a>
+      <header class="header">
+        <h1>Password Generator</h1>
+        <p class="subtitle">Generate strong random passwords or memorable passphrases, using your browser's secure randomness.</p>
+      </header>
+
+      <div class="tabs" id="tabs" role="tablist">
+        <button class="tab tab--active" data-mode="password" role="tab" aria-selected="true">Password</button>
+        <button class="tab" data-mode="passphrase" role="tab" aria-selected="false">Passphrase</button>
+      </div>
+
+      <section class="panel">
+        <div id="passwordPanel" class="mode-panel">
+          <div class="field">
+            <div class="field__head">
+              <label for="pwLength" class="control-label">Length</label>
+              <input type="number" id="pwLengthNumber" class="number-input number-input--sm" min="4" max="64" value="16"/>
+            </div>
+            <input type="range" id="pwLength" min="4" max="64" value="16" class="slider"/>
+          </div>
+
+          <div class="field">
+            <span class="control-label">Character types</span>
+            <div class="control-group control-group--inline">
+              <label for="optUpper" class="control-label">Uppercase (A-Z)</label>
+              <input type="checkbox" id="optUpper" class="toggle" checked/>
+            </div>
+            <div class="control-group control-group--inline">
+              <label for="optLower" class="control-label">Lowercase (a-z)</label>
+              <input type="checkbox" id="optLower" class="toggle" checked/>
+            </div>
+            <div class="control-group control-group--inline">
+              <label for="optDigits" class="control-label">Digits (0-9)</label>
+              <input type="checkbox" id="optDigits" class="toggle" checked/>
+            </div>
+            <div class="control-group control-group--inline">
+              <label for="optSymbols" class="control-label">Symbols (!@#$%^&amp;*)</label>
+              <input type="checkbox" id="optSymbols" class="toggle" checked/>
+            </div>
+            <div class="control-group control-group--inline">
+              <label for="optExcludeAmbiguous" class="control-label">Exclude ambiguous (il1Lo0O)</label>
+              <input type="checkbox" id="optExcludeAmbiguous" class="toggle"/>
+            </div>
+          </div>
+
+          <button class="btn btn--primary" id="pwGenerate">Generate</button>
+
+          <div class="field">
+            <div class="field__head">
+              <label for="pwOutput" class="control-label">Password</label>
+              <button class="btn btn--secondary btn--sm" id="pwCopy">Copy</button>
+            </div>
+            <input type="text" id="pwOutput" class="output-field" readonly placeholder="Click Generate&hellip;"/>
+            <p class="error" id="pwError" hidden></p>
+            <div class="strength" id="pwStrength" hidden>
+              <span class="badge" id="pwBadge"></span>
+              <span class="strength__bits" id="pwBits"></span>
+            </div>
+          </div>
+        </div>
+
+        <div id="passphrasePanel" class="mode-panel" hidden>
+          <div class="field">
+            <div class="field__head">
+              <label for="ppWordCount" class="control-label">Word count</label>
+              <input type="number" id="ppWordCountNumber" class="number-input number-input--sm" min="3" max="10" value="5"/>
+            </div>
+            <input type="range" id="ppWordCount" min="3" max="10" value="5" class="slider"/>
+          </div>
+
+          <div class="field">
+            <label for="ppSeparator" class="control-label">Separator</label>
+            <select id="ppSeparator" class="select">
+              <option value="-">Hyphen (-)</option>
+              <option value=" ">Space</option>
+              <option value=".">Period (.)</option>
+              <option value="_">Underscore (_)</option>
+            </select>
+          </div>
+
+          <div class="control-group control-group--inline">
+            <label for="ppCapitalize" class="control-label">Capitalize each word</label>
+            <input type="checkbox" id="ppCapitalize" class="toggle" checked/>
+          </div>
+
+          <button class="btn btn--primary" id="ppGenerate">Generate</button>
+
+          <div class="field">
+            <div class="field__head">
+              <label for="ppOutput" class="control-label">Passphrase</label>
+              <button class="btn btn--secondary btn--sm" id="ppCopy">Copy</button>
+            </div>
+            <input type="text" id="ppOutput" class="output-field" readonly placeholder="Click Generate&hellip;"/>
+            <div class="strength" id="ppStrength" hidden>
+              <span class="badge" id="ppBadge"></span>
+              <span class="strength__bits" id="ppBits"></span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

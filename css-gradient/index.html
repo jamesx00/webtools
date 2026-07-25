@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>CSS Gradient &amp; Shadow Generator — Webtools</title>
+    <link rel="stylesheet" href="style.css"/>
+  </head>
+  <body>
+    <div class="app">
+      <a class="back-link" href="../">&larr; Webtools</a>
+      <header class="header">
+        <h1>CSS Gradient &amp; Shadow Generator</h1>
+        <p class="subtitle">Build linear/radial gradients and box-shadows with a live preview and copy-ready CSS.</p>
+      </header>
+
+      <div class="tabs" id="tabs" role="tablist">
+        <button class="tab tab--active" data-mode="gradient" role="tab" aria-selected="true">Gradient</button>
+        <button class="tab" data-mode="shadow" role="tab" aria-selected="false">Box Shadow</button>
+      </div>
+
+      <section class="panel" id="panel-gradient">
+        <div class="field">
+          <div class="field__head">
+            <span class="control-label">Type</span>
+          </div>
+          <div class="tabs" id="gradientTypeTabs" role="tablist">
+            <button class="tab tab--active" data-type="linear" role="tab" aria-selected="true">Linear</button>
+            <button class="tab" data-type="radial" role="tab" aria-selected="false">Radial</button>
+          </div>
+        </div>
+
+        <div class="field" id="angleField">
+          <div class="field__head">
+            <label for="angleInput" class="control-label">Angle</label>
+            <span id="angleValue">90deg</span>
+          </div>
+          <input type="range" id="angleInput" class="range" min="0" max="360" value="90"/>
+        </div>
+
+        <div class="field" id="positionField" hidden>
+          <div class="field__head">
+            <label for="positionSelect" class="control-label">Position</label>
+          </div>
+          <select id="positionSelect" class="text-input">
+            <option value="center">Center</option>
+            <option value="top">Top</option>
+            <option value="bottom">Bottom</option>
+            <option value="left">Left</option>
+            <option value="right">Right</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <div class="field__head">
+            <span class="control-label">Color stops</span>
+            <button class="btn btn--secondary btn--sm" id="addStopBtn" type="button">Add stop</button>
+          </div>
+          <div id="stopsList" class="stops-list"></div>
+        </div>
+
+        <div class="field">
+          <span class="control-label">Preview</span>
+          <div id="gradientPreview" class="preview-box"></div>
+        </div>
+
+        <div class="field">
+          <div class="field__head">
+            <label for="gradientOutput" class="control-label">CSS</label>
+            <button class="btn btn--secondary btn--sm" id="gradientCopyBtn" type="button">Copy</button>
+          </div>
+          <textarea id="gradientOutput" class="textarea" rows="2" readonly></textarea>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-shadow" hidden>
+        <div class="shadow-grid">
+          <div class="field">
+            <label for="offsetX" class="control-label">Offset X</label>
+            <input type="number" id="offsetX" class="text-input" value="4"/>
+          </div>
+          <div class="field">
+            <label for="offsetY" class="control-label">Offset Y</label>
+            <input type="number" id="offsetY" class="text-input" value="4"/>
+          </div>
+          <div class="field">
+            <label for="blurInput" class="control-label">Blur</label>
+            <input type="number" id="blurInput" class="text-input" min="0" value="12"/>
+          </div>
+          <div class="field">
+            <label for="spreadInput" class="control-label">Spread</label>
+            <input type="number" id="spreadInput" class="text-input" value="0"/>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="field__head">
+            <label for="shadowColor" class="control-label">Color</label>
+            <span id="opacityValue">25%</span>
+          </div>
+          <div class="shadow-color-row">
+            <span class="swatch swatch--sm">
+              <input type="color" id="shadowColor" value="#000000"/>
+            </span>
+            <input type="range" id="shadowOpacity" class="range" min="0" max="100" value="25"/>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="checkbox-label">
+            <input type="checkbox" id="insetCheckbox"/> Inset
+          </label>
+        </div>
+
+        <div class="field">
+          <span class="control-label">Preview</span>
+          <div class="shadow-preview-wrap">
+            <div id="shadowPreview" class="shadow-box"></div>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="field__head">
+            <label for="shadowOutput" class="control-label">CSS</label>
+            <button class="btn btn--secondary btn--sm" id="shadowCopyBtn" type="button">Copy</button>
+          </div>
+          <textarea id="shadowOutput" class="textarea" rows="2" readonly></textarea>
+        </div>
+      </section>
+    </div>
+
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

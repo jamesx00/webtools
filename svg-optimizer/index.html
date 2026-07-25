@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>SVG Optimizer — Webtools</title>
+    <link rel="stylesheet" href="style.css"/>
+  </head>
+  <body>
+    <div class="app">
+      <a class="back-link" href="../">&larr; Webtools</a>
+      <header class="header">
+        <h1>SVG Optimizer</h1>
+        <p class="subtitle">Strip comments, metadata, and excess whitespace from SVG markup to shrink file size.</p>
+      </header>
+
+      <section class="panel">
+        <div class="field">
+          <div class="field__head">
+            <label for="input" class="control-label">SVG Markup</label>
+            <label class="btn btn--secondary btn--sm file-btn">
+              Upload .svg
+              <input type="file" id="fileInput" class="file-input" accept=".svg,image/svg+xml" hidden/>
+            </label>
+          </div>
+          <textarea id="input" class="textarea" rows="10" placeholder="Paste SVG markup here&hellip;"></textarea>
+          <p class="error" id="inputError" hidden></p>
+        </div>
+
+        <div class="actions">
+          <button class="btn btn--primary" id="optimizeBtn">Optimize</button>
+        </div>
+
+        <div class="stats" id="stats" hidden>
+          <div class="stat">
+            <span class="stat__label">Original</span>
+            <span class="stat__value" id="originalSize">—</span>
+          </div>
+          <div class="stat">
+            <span class="stat__label">Optimized</span>
+            <span class="stat__value" id="optimizedSize">—</span>
+          </div>
+          <div class="stat">
+            <span class="stat__label">Reduction</span>
+            <span class="stat__value" id="reduction">—</span>
+          </div>
+        </div>
+
+        <div class="preview-grid">
+          <div class="preview">
+            <span class="control-label">Original Preview</span>
+            <div class="preview__box">
+              <img id="originalPreview" class="preview__img" alt="Original SVG preview" hidden/>
+              <p class="preview__placeholder" id="originalPlaceholder">No preview yet</p>
+              <p class="error" id="originalPreviewError" hidden></p>
+            </div>
+          </div>
+          <div class="preview">
+            <span class="control-label">Optimized Preview</span>
+            <div class="preview__box">
+              <img id="optimizedPreview" class="preview__img" alt="Optimized SVG preview" hidden/>
+              <p class="preview__placeholder" id="optimizedPlaceholder">No preview yet</p>
+              <p class="error" id="optimizedPreviewError" hidden></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="field__head">
+            <label for="output" class="control-label">Optimized SVG</label>
+            <div class="field__actions">
+              <button class="btn btn--secondary btn--sm" id="copyBtn">Copy</button>
+              <button class="btn btn--secondary btn--sm" id="downloadBtn">Download</button>
+            </div>
+          </div>
+          <textarea id="output" class="textarea" rows="10" readonly placeholder="Optimized SVG appears here&hellip;"></textarea>
+        </div>
+      </section>
+    </div>
+
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

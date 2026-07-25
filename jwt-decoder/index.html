@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>JWT Decoder — Webtools</title>
+    <link rel="stylesheet" href="style.css"/>
+  </head>
+  <body>
+    <div class="app">
+      <a class="back-link" href="../">&larr; Webtools</a>
+      <header class="header">
+        <h1>JWT Decoder</h1>
+        <p class="subtitle">Decode a JWT's header and payload — no signature verification, nothing leaves your browser.</p>
+      </header>
+
+      <section class="panel">
+        <div class="field">
+          <div class="field__head">
+            <label for="input" class="control-label">JWT</label>
+          </div>
+          <textarea id="input" class="textarea" rows="6" placeholder="Paste a JWT here (header.payload.signature)&hellip;"></textarea>
+          <p class="error" id="error" hidden></p>
+        </div>
+
+        <div id="result" hidden>
+          <div class="field">
+            <div class="field__head">
+              <label class="control-label">Header</label>
+              <button class="btn btn--secondary btn--sm" data-copy-target="headerOutput">Copy</button>
+            </div>
+            <pre class="textarea output-block" id="headerOutput"></pre>
+          </div>
+
+          <div class="field">
+            <div class="field__head">
+              <label class="control-label">Payload</label>
+              <button class="btn btn--secondary btn--sm" data-copy-target="payloadOutput">Copy</button>
+            </div>
+            <pre class="textarea output-block" id="payloadOutput"></pre>
+          </div>
+
+          <div class="field" id="claimsField" hidden>
+            <div class="field__head">
+              <label class="control-label">Claims</label>
+            </div>
+            <div id="claimsInfo"></div>
+          </div>
+
+          <div class="field">
+            <div class="field__head">
+              <label class="control-label">Signature (unverified)</label>
+              <button class="btn btn--secondary btn--sm" data-copy-target="signatureOutput">Copy</button>
+            </div>
+            <pre class="textarea output-block" id="signatureOutput"></pre>
+            <p class="note">This tool does not verify the signature — no secret or public key is used.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <script type="module" src="app.js"></script>
+  </body>
+</html>
