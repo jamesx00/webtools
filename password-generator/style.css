@@ -78,7 +78,8 @@ body {
   gap: 20px;
 }
 
-.mode-panel { display: flex; flex-direction: column; gap: 20px; }
+.mode-panel { flex-direction: column; gap: 20px; }
+.mode-panel:not([hidden]) { display: flex; }
 
 .field { display: flex; flex-direction: column; gap: 8px; }
 .field__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }

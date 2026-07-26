@@ -73,12 +73,13 @@ body {
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 24px;
-  display: flex;
   flex-direction: column;
   gap: 20px;
 }
+.panel:not([hidden]) { display: flex; }
 
-.field { display: flex; flex-direction: column; gap: 8px; }
+.field { flex-direction: column; gap: 8px; }
+.field:not([hidden]) { display: flex; }
 .field__head { display: flex; align-items: center; justify-content: space-between; }
 
 .control-label {
