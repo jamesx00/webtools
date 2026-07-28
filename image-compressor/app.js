@@ -357,8 +357,14 @@ function sizeCompare() {
   const ratio = (compareBeforeEl.naturalWidth && compareBeforeEl.naturalHeight)
     ? compareBeforeEl.naturalHeight / compareBeforeEl.naturalWidth
     : 0.6;
+  // Fill whatever the dialog has left after the header and footer.
+  const dialog = compareEl.parentElement;
+  const chrome = Array.from(dialog.children)
+    .filter(el => el !== compareEl)
+    .reduce((sum, el) => sum + el.offsetHeight, 0);
+  const available = dialog.clientHeight - chrome;
   const width = compareEl.clientWidth;
-  compareEl.style.height = `${Math.min(width * ratio, window.innerHeight * 0.65)}px`;
+  compareEl.style.height = `${Math.max(120, Math.min(width * ratio, available))}px`;
   compareClip.style.setProperty('--compare-w', `${width}px`);
 }
 
