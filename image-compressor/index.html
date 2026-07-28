@@ -81,7 +81,16 @@
             <span class="compare__grip"></span>
           </div>
         </div>
-        <div class="modal__foot" id="compareFoot"></div>
+        <div class="modal__foot">
+          <span id="compareStats"></span>
+          <span class="zoom">
+            <button class="btn btn--secondary btn--sm" id="zoomOut" aria-label="Zoom out">&minus;</button>
+            <span class="zoom__value" id="zoomValue">100%</span>
+            <button class="btn btn--secondary btn--sm" id="zoomIn" aria-label="Zoom in">+</button>
+            <button class="btn btn--secondary btn--sm" id="zoomReset">Reset</button>
+            <span class="zoom__hint">Scroll to zoom · drag to pan · click to move the divider</span>
+          </span>
+        </div>
       </div>
     </div>
 

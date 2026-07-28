@@ -365,7 +365,14 @@ body {
   object-fit: contain;
   display: block;
   pointer-events: none;
+  transform-origin: center center;
+  will-change: transform;
 }
+/* Past ~2x show real pixels — smoothing hides the compression artefacts
+   this view exists to compare. */
+.compare--pixelated .compare__img { image-rendering: pixelated; }
+.compare--zoomed { cursor: grab; }
+.compare--zoomed:active { cursor: grabbing; }
 .compare__clip {
   position: absolute;
   inset: 0;
@@ -373,6 +380,10 @@ body {
   overflow: hidden;
 }
 .compare__clip .compare__img { width: var(--compare-w, 100%); }
+.zoom { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+.zoom__value { min-width: 48px; text-align: center; font-variant-numeric: tabular-nums; }
+.zoom__hint { color: var(--text-muted); font-size: 12px; }
+
 .compare__handle {
   position: absolute;
   top: 0;
@@ -382,6 +393,16 @@ body {
   background: #fff;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
   transform: translateX(-1px);
+}
+/* Wider invisible grab area so the divider stays draggable while panning. */
+.compare__handle::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -12px;
+  right: -12px;
+  cursor: ew-resize;
 }
 .compare__handle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .compare__grip {

@@ -321,7 +321,8 @@ const compareHandle   = document.getElementById('compareHandle');
 const compareBeforeEl = document.getElementById('compareBefore');
 const compareAfterEl  = document.getElementById('compareAfter');
 const compareTitle    = document.getElementById('compareTitle');
-const compareFoot     = document.getElementById('compareFoot');
+const compareStats    = document.getElementById('compareStats');
+const zoomValueEl     = document.getElementById('zoomValue');
 
 // Object URLs live as long as the modal is open; revoked on close.
 let compareUrls = [];
@@ -341,10 +342,11 @@ function openCompare(entry) {
   const pct = entry.usedOriginal
     ? 'no gain — using original'
     : `−${Math.round((1 - entry.compressedSize / entry.originalSize) * 100)}%`;
-  compareFoot.textContent =
+  compareStats.textContent =
     `${formatBytes(entry.originalSize)} → ${formatBytes(entry.compressedSize)} (${pct})`;
 
   compareModal.hidden = false;
+  setZoom(1, null);
   // The original may be larger than the compressed one; size the box to the
   // original's aspect ratio so `object-fit: contain` letterboxes both equally.
   compareBeforeEl.decode?.().catch(() => {}).finally(sizeCompare);
@@ -380,20 +382,101 @@ function positionFromEvent(e) {
   return ((e.clientX - rect.left) / rect.width) * 100;
 }
 
-let dragging = false;
+// ─── Zoom / pan ──────────────────────────────────────────────────────────────
+// Both images carry the identical transform (same box, same `object-fit`, same
+// centre origin), so the two halves stay registered at any zoom level.
+
+const MIN_ZOOM = 1;
+const MAX_ZOOM = 16;
+const zoomState = { z: 1, ox: 0, oy: 0 };
+
+function applyTransform() {
+  const t = `translate(${zoomState.ox}px, ${zoomState.oy}px) scale(${zoomState.z})`;
+  compareBeforeEl.style.transform = t;
+  compareAfterEl.style.transform = t;
+  zoomValueEl.textContent = `${Math.round(zoomState.z * 100)}%`;
+  compareEl.classList.toggle('compare--zoomed', zoomState.z > 1);
+  compareEl.classList.toggle('compare--pixelated', zoomState.z >= 2);
+}
+
+function clampPan() {
+  const rect = compareEl.getBoundingClientRect();
+  const maxX = Math.max(0, (zoomState.z - 1) * rect.width / 2);
+  const maxY = Math.max(0, (zoomState.z - 1) * rect.height / 2);
+  zoomState.ox = Math.max(-maxX, Math.min(maxX, zoomState.ox));
+  zoomState.oy = Math.max(-maxY, Math.min(maxY, zoomState.oy));
+}
+
+// `anchor` is a point in container coordinates that should stay put while the
+// scale changes; null anchors on the divider, so zooming keeps whatever the
+// line sits on centred under the line.
+function setZoom(z, anchor) {
+  const rect = compareEl.getBoundingClientRect();
+  const next = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, z));
+  const cx = rect.width / 2;
+  const cy = rect.height / 2;
+  const point = anchor || {
+    x: (parseFloat(compareHandle.style.left) || 50) / 100 * rect.width,
+    y: cy,
+  };
+  zoomState.ox = point.x - cx - (point.x - cx - zoomState.ox) * next / zoomState.z;
+  zoomState.oy = point.y - cy - (point.y - cy - zoomState.oy) * next / zoomState.z;
+  zoomState.z = next;
+  if (next === 1) { zoomState.ox = 0; zoomState.oy = 0; }
+  clampPan();
+  applyTransform();
+}
+
+compareEl.addEventListener('wheel', e => {
+  e.preventDefault();
+  const rect = compareEl.getBoundingClientRect();
+  const factor = Math.exp(-e.deltaY * 0.002);
+  setZoom(zoomState.z * factor, { x: e.clientX - rect.left, y: e.clientY - rect.top });
+}, { passive: false });
+
+document.getElementById('zoomIn').addEventListener('click', () => setZoom(zoomState.z * 1.5, null));
+document.getElementById('zoomOut').addEventListener('click', () => setZoom(zoomState.z / 1.5, null));
+document.getElementById('zoomReset').addEventListener('click', () => setZoom(1, null));
+
+// ─── Pointer: divider drag, or pan when zoomed in ────────────────────────────
+
+let drag = null;
+
 compareEl.addEventListener('pointerdown', e => {
-  dragging = true;
   compareEl.setPointerCapture(e.pointerId);
-  setComparePosition(positionFromEvent(e));
+  const onHandle = e.target === compareHandle || compareHandle.contains(e.target);
+  // Zoomed in, away from the handle: drag pans. Otherwise it moves the divider.
+  const mode = (zoomState.z > 1 && !onHandle) ? 'pan' : 'divider';
+  drag = { mode, x: e.clientX, y: e.clientY, moved: false };
+  if (mode === 'divider') setComparePosition(positionFromEvent(e));
 });
+
 compareEl.addEventListener('pointermove', e => {
-  if (dragging) setComparePosition(positionFromEvent(e));
+  if (!drag) return;
+  if (drag.mode === 'divider') {
+    setComparePosition(positionFromEvent(e));
+    return;
+  }
+  const dx = e.clientX - drag.x;
+  const dy = e.clientY - drag.y;
+  if (Math.abs(dx) > 2 || Math.abs(dy) > 2) drag.moved = true;
+  zoomState.ox += dx;
+  zoomState.oy += dy;
+  drag.x = e.clientX;
+  drag.y = e.clientY;
+  clampPan();
+  applyTransform();
 });
-compareEl.addEventListener('pointerup', e => {
-  dragging = false;
-  compareEl.releasePointerCapture(e.pointerId);
-});
-compareEl.addEventListener('pointercancel', () => { dragging = false; });
+
+function endDrag(e) {
+  if (!drag) return;
+  // A click (no pan) while zoomed still moves the divider.
+  if (drag.mode === 'pan' && !drag.moved) setComparePosition(positionFromEvent(e));
+  drag = null;
+  compareEl.releasePointerCapture?.(e.pointerId);
+}
+compareEl.addEventListener('pointerup', endDrag);
+compareEl.addEventListener('pointercancel', () => { drag = null; });
 
 compareHandle.addEventListener('keydown', e => {
   const current = parseFloat(compareHandle.getAttribute('aria-valuenow'));
