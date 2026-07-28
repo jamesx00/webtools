@@ -62,6 +62,29 @@
       </section>
     </div>
 
+    <div class="modal" id="compareModal" hidden>
+      <div class="modal__backdrop" id="compareBackdrop"></div>
+      <div class="modal__dialog" role="dialog" aria-modal="true" aria-label="Before and after comparison">
+        <div class="modal__head">
+          <span class="modal__title" id="compareTitle"></span>
+          <button class="modal__close" id="compareClose" aria-label="Close">&times;</button>
+        </div>
+        <div class="compare" id="compare">
+          <img class="compare__img compare__img--after" id="compareAfter" alt="Compressed"/>
+          <div class="compare__clip" id="compareClip">
+            <img class="compare__img compare__img--before" id="compareBefore" alt="Original"/>
+          </div>
+          <span class="compare__label compare__label--before">Before</span>
+          <span class="compare__label compare__label--after">After</span>
+          <div class="compare__handle" id="compareHandle" role="slider" tabindex="0"
+               aria-label="Comparison position" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <span class="compare__grip"></span>
+          </div>
+        </div>
+        <div class="modal__foot" id="compareFoot"></div>
+      </div>
+    </div>
+
     <script type="module" src="app.js"></script>
   </body>
 </html>

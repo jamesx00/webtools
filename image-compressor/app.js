@@ -218,6 +218,11 @@ function buildCard(entry) {
     const url = URL.createObjectURL(entry.originalFile);
     img.src = url;
     img.onload = () => URL.revokeObjectURL(url);
+    if (entry.status === 'done') {
+      img.classList.add('card__thumb--clickable');
+      img.title = 'Click to compare before / after';
+      img.addEventListener('click', () => openCompare(entry));
+    }
     card.appendChild(img);
   } else {
     const thumb = document.createElement('div');
@@ -306,6 +311,109 @@ function buildCard(entry) {
 
   return card;
 }
+
+// ─── Before/after comparison ─────────────────────────────────────────────────
+
+const compareModal    = document.getElementById('compareModal');
+const compareEl       = document.getElementById('compare');
+const compareClip     = document.getElementById('compareClip');
+const compareHandle   = document.getElementById('compareHandle');
+const compareBeforeEl = document.getElementById('compareBefore');
+const compareAfterEl  = document.getElementById('compareAfter');
+const compareTitle    = document.getElementById('compareTitle');
+const compareFoot     = document.getElementById('compareFoot');
+
+// Object URLs live as long as the modal is open; revoked on close.
+let compareUrls = [];
+
+function openCompare(entry) {
+  if (entry.status !== 'done' || !entry.compressedBlob) return;
+
+  closeCompare();
+  const beforeUrl = URL.createObjectURL(entry.originalFile);
+  const afterUrl  = URL.createObjectURL(entry.compressedBlob);
+  compareUrls = [beforeUrl, afterUrl];
+
+  compareBeforeEl.src = beforeUrl;
+  compareAfterEl.src  = afterUrl;
+  compareTitle.textContent = uniqueFilenames(state.files)[entry.id];
+
+  const pct = entry.usedOriginal
+    ? 'no gain — using original'
+    : `−${Math.round((1 - entry.compressedSize / entry.originalSize) * 100)}%`;
+  compareFoot.textContent =
+    `${formatBytes(entry.originalSize)} → ${formatBytes(entry.compressedSize)} (${pct})`;
+
+  compareModal.hidden = false;
+  // The original may be larger than the compressed one; size the box to the
+  // original's aspect ratio so `object-fit: contain` letterboxes both equally.
+  compareBeforeEl.decode?.().catch(() => {}).finally(sizeCompare);
+  sizeCompare();
+  setComparePosition(50);
+}
+
+function sizeCompare() {
+  if (compareModal.hidden) return;
+  const ratio = (compareBeforeEl.naturalWidth && compareBeforeEl.naturalHeight)
+    ? compareBeforeEl.naturalHeight / compareBeforeEl.naturalWidth
+    : 0.6;
+  const width = compareEl.clientWidth;
+  compareEl.style.height = `${Math.min(width * ratio, window.innerHeight * 0.65)}px`;
+  compareClip.style.setProperty('--compare-w', `${width}px`);
+}
+
+function setComparePosition(pct) {
+  const clamped = Math.max(0, Math.min(100, pct));
+  compareClip.style.width = `${clamped}%`;
+  compareHandle.style.left = `${clamped}%`;
+  compareHandle.setAttribute('aria-valuenow', Math.round(clamped));
+}
+
+function positionFromEvent(e) {
+  const rect = compareEl.getBoundingClientRect();
+  return ((e.clientX - rect.left) / rect.width) * 100;
+}
+
+let dragging = false;
+compareEl.addEventListener('pointerdown', e => {
+  dragging = true;
+  compareEl.setPointerCapture(e.pointerId);
+  setComparePosition(positionFromEvent(e));
+});
+compareEl.addEventListener('pointermove', e => {
+  if (dragging) setComparePosition(positionFromEvent(e));
+});
+compareEl.addEventListener('pointerup', e => {
+  dragging = false;
+  compareEl.releasePointerCapture(e.pointerId);
+});
+compareEl.addEventListener('pointercancel', () => { dragging = false; });
+
+compareHandle.addEventListener('keydown', e => {
+  const current = parseFloat(compareHandle.getAttribute('aria-valuenow'));
+  const step = e.shiftKey ? 10 : 2;
+  if (e.key === 'ArrowLeft') setComparePosition(current - step);
+  else if (e.key === 'ArrowRight') setComparePosition(current + step);
+  else if (e.key === 'Home') setComparePosition(0);
+  else if (e.key === 'End') setComparePosition(100);
+  else return;
+  e.preventDefault();
+});
+
+function closeCompare() {
+  compareModal.hidden = true;
+  compareUrls.forEach(u => URL.revokeObjectURL(u));
+  compareUrls = [];
+  compareBeforeEl.removeAttribute('src');
+  compareAfterEl.removeAttribute('src');
+}
+
+document.getElementById('compareClose').addEventListener('click', closeCompare);
+document.getElementById('compareBackdrop').addEventListener('click', closeCompare);
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && !compareModal.hidden) closeCompare();
+});
+window.addEventListener('resize', sizeCompare);
 
 function outputFilename(entry) {
   const base = entry.originalFile.name.replace(/\.[^.]+$/, '');
