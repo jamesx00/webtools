@@ -12,6 +12,8 @@ export default defineConfig({
         main: page(),
         imageCompressor: page('image-compressor'),
         gifCompressor: page('gif-compressor'),
+        gifToVideo: page('gif-to-video'),
+        videoCompressor: page('video-compressor'),
         qrCode: page('qr-code'),
         encodeDecode: page('encode-decode'),
         colorTools: page('color-tools'),

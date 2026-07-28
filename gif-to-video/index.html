@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>GIF to Video — Webtools</title>
+    <link rel="stylesheet" href="style.css"/>
+  </head>
+  <body>
+    <div class="app">
+      <a class="back-link" href="../">&larr; Webtools</a>
+      <header class="header">
+        <h1>GIF to Video</h1>
+        <p class="subtitle">Convert animated GIFs to MP4 or WebM in your browser. Video is far smaller than GIF. Nothing is uploaded.</p>
+      </header>
+
+      <section class="notice notice--error" id="unsupported" hidden>
+        Your browser doesn't support the WebCodecs API, which this tool needs. Try a recent Chrome, Edge, Safari 16.4+ or Firefox 130+.
+      </section>
+
+      <section class="dropzone" id="dropzone" role="button" tabindex="0" aria-label="Drop GIFs here or click to browse">
+        <div class="dropzone__inner">
+          <svg
+            class="dropzone__icon"
+            xmlns="http://www.w3.org/2000/svg"
+            width="48"
+            height="48"
+            viewbox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/> </svg>
+          <p class="dropzone__text">Drop GIFs here or
+            <span class="dropzone__browse">browse</span>
+          </p>
+          <p class="dropzone__hint">Animated and static GIFs supported</p>
+        </div>
+        <input type="file" id="fileInput" accept="image/gif" multiple hidden/>
+      </section>
+
+      <section class="controls">
+        <div class="control-group">
+          <label for="format" class="control-label">Format</label>
+          <select id="format" class="number-input">
+            <option value="mp4" selected>MP4 (H.264)</option>
+            <option value="webm">WebM (VP9)</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <label for="quality" class="control-label">Quality</label>
+          <select id="quality" class="number-input">
+            <option value="0.05">Low — smallest file</option>
+            <option value="0.1" selected>Medium</option>
+            <option value="0.2">High</option>
+            <option value="0.4">Very high</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <label for="fps" class="control-label">Frame rate</label>
+          <select id="fps" class="number-input">
+            <option value="0" selected>Match GIF</option>
+            <option value="15">15 fps</option>
+            <option value="24">24 fps</option>
+            <option value="30">30 fps</option>
+            <option value="60">60 fps</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <label for="maxWidth" class="control-label">Max width (px)</label>
+          <input type="number" id="maxWidth" min="1" value="0" class="number-input"/>
+        </div>
+        <div class="control-group">
+          <label for="loops" class="control-label">Repeat</label>
+          <select id="loops" class="number-input">
+            <option value="1" selected>Play once</option>
+            <option value="2">2×</option>
+            <option value="3">3×</option>
+            <option value="5">5×</option>
+            <option value="10">10×</option>
+          </select>
+        </div>
+      </section>
+      <p class="controls__hint">Video files have no loop flag — pick a repeat count to bake the loop in.</p>
+
+      <section class="queue" id="queue" hidden>
+        <div class="queue__list" id="queueList"></div>
+        <div class="queue__actions">
+          <button class="btn btn--secondary" id="clearAll">Clear all</button>
+          <button class="btn btn--primary" id="downloadAll">Download all as ZIP</button>
+        </div>
+      </section>
+    </div>
+
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

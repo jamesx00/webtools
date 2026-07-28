@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Video Compressor — Webtools</title>
+    <link rel="stylesheet" href="style.css"/>
+  </head>
+  <body>
+    <div class="app">
+      <a class="back-link" href="../">&larr; Webtools</a>
+      <header class="header">
+        <h1>Video Compressor</h1>
+        <p class="subtitle">Re-encode a video at a lower resolution, frame rate or bitrate — entirely in your browser. Nothing is uploaded.</p>
+      </header>
+
+      <section class="notice notice--error" id="unsupported" hidden>
+        Your browser can't record video from a canvas, which this tool needs. Try a recent Chrome, Edge, Safari or Firefox.
+      </section>
+
+      <section class="dropzone" id="dropzone" role="button" tabindex="0" aria-label="Drop a video here or click to browse">
+        <div class="dropzone__inner">
+          <svg
+            class="dropzone__icon"
+            xmlns="http://www.w3.org/2000/svg"
+            width="48"
+            height="48"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          <p class="dropzone__text">Drop a video here or
+            <span class="dropzone__browse">browse</span>
+          </p>
+          <p class="dropzone__hint">MP4, WebM, MOV — anything your browser can play</p>
+        </div>
+        <input type="file" id="fileInput" accept="video/*" hidden/>
+      </section>
+
+      <section class="source" id="source" hidden>
+        <video class="source__video" id="preview" controls playsinline muted></video>
+        <div class="source__info">
+          <div class="source__name" id="sourceName"></div>
+          <div class="source__meta" id="sourceMeta"></div>
+        </div>
+      </section>
+
+      <section class="controls" id="controls" hidden>
+        <div class="control-group">
+          <label for="format" class="control-label">Format</label>
+          <select id="format" class="number-input"></select>
+        </div>
+        <div class="control-group">
+          <label for="resolution" class="control-label">Resolution</label>
+          <select id="resolution" class="number-input">
+            <option value="0" selected>Keep original</option>
+            <option value="1080">1080p</option>
+            <option value="720">720p</option>
+            <option value="480">480p</option>
+            <option value="360">360p</option>
+            <option value="240">240p</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <label for="fps" class="control-label">Frame rate</label>
+          <select id="fps" class="number-input">
+            <option value="0" selected>Auto (up to 30)</option>
+            <option value="30">30 fps</option>
+            <option value="24">24 fps</option>
+            <option value="15">15 fps</option>
+            <option value="10">10 fps</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <label for="bitrate" class="control-label">Video bitrate (kbps)</label>
+          <input type="number" id="bitrate" min="100" placeholder="auto" class="number-input"/>
+        </div>
+        <div class="control-group">
+          <label for="trimStart" class="control-label">Trim from (s)</label>
+          <input type="number" id="trimStart" min="0" step="0.1" placeholder="0" class="number-input"/>
+        </div>
+        <div class="control-group">
+          <label for="trimEnd" class="control-label">Trim to (s)</label>
+          <input type="number" id="trimEnd" min="0" step="0.1" placeholder="end" class="number-input"/>
+        </div>
+        <div class="control-group control-group--inline">
+          <label for="keepAudio" class="control-label">Keep audio</label>
+          <input type="checkbox" id="keepAudio" class="toggle" checked/>
+        </div>
+        <div class="control-group">
+          <label for="audioBitrate" class="control-label">Audio bitrate (kbps)</label>
+          <select id="audioBitrate" class="number-input">
+            <option value="128">128</option>
+            <option value="96" selected>96</option>
+            <option value="64">64</option>
+          </select>
+        </div>
+      </section>
+
+      <section class="run" id="run" hidden>
+        <div class="run__row">
+          <button class="btn btn--primary" id="startBtn">Compress</button>
+          <button class="btn btn--secondary" id="cancelBtn" hidden>Cancel</button>
+          <button class="btn btn--secondary" id="clearBtn">Clear</button>
+        </div>
+        <p class="run__hint">
+          Compression runs at playback speed — a 2-minute clip takes about 2 minutes. Keep this tab in the foreground.
+        </p>
+        <div class="progress" id="progress" hidden>
+          <div class="progress__bar" id="progressBar"></div>
+        </div>
+        <div class="run__status" id="runStatus"></div>
+      </section>
+
+      <section class="result" id="result" hidden>
+        <video class="result__video" id="resultVideo" controls playsinline></video>
+        <div class="result__meta" id="resultMeta"></div>
+        <button class="btn btn--primary" id="downloadBtn">Download</button>
+      </section>
+    </div>
+
+    <script type="module" src="app.js"></script>
+  </body>
+</html>
