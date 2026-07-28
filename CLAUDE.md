@@ -9,6 +9,7 @@ A homepage linking to small client-side tools. All processing happens in the bro
 - `browser-image-compression` — client-side JPEG/PNG/WebP compression
 - `jszip` — ZIP generation for batch download
 - `qrcode` — client-side QR code generation
+- `gifsicle-wasm-browser` — gifsicle compiled to wasm, for animated GIF compression
 
 ## Commands
 
@@ -20,7 +21,7 @@ npm run build  # production build → dist/
 ## Structure
 
 - `/` — home page (`index.html` + `style.css`) listing all tools as cards.
-- `/image-compressor/`, `/qr-code/`, `/encode-decode/`, `/color-tools/`, `/file-hash/`, `/json-formatter/`, `/text-diff/`, `/case-converter/`, `/jwt-decoder/`, `/regex-tester/`, `/cron-parser/`, `/timestamp-converter/`, `/markdown-preview/`, `/csv-json/`, `/lorem-ipsum/`, `/fake-data-generator/`, `/uuid-generator/`, `/image-resizer/`, `/favicon-generator/`, `/svg-optimizer/`, `/image-base64/`, `/exif-viewer/`, `/password-generator/`, `/unit-converter/`, `/css-gradient/` — each a self-contained tool (own `app.js` + `style.css`).
+- `/image-compressor/`, `/gif-compressor/`, `/qr-code/`, `/encode-decode/`, `/color-tools/`, `/file-hash/`, `/json-formatter/`, `/text-diff/`, `/case-converter/`, `/jwt-decoder/`, `/regex-tester/`, `/cron-parser/`, `/timestamp-converter/`, `/markdown-preview/`, `/csv-json/`, `/lorem-ipsum/`, `/fake-data-generator/`, `/uuid-generator/`, `/image-resizer/`, `/favicon-generator/`, `/svg-optimizer/`, `/image-base64/`, `/exif-viewer/`, `/password-generator/`, `/unit-converter/`, `/css-gradient/` — each a self-contained tool (own `app.js` + `style.css`).
 - Each tool is a real folder with its own `index.html`, listed as an entry in `vite.config.js`'s `rollupOptions.input` so `npm run build` emits it. **New tool = new folder + new entry in `vite.config.js`.**
 - No shared JS between tools; each tool folder is self-contained, including its own `style.css` (duplicated `:root` variables etc.). Only the variable names/patterns are informally shared by convention. The root `style.css` only styles the home page.
 
@@ -31,6 +32,15 @@ npm run build  # production build → dist/
 - **Concurrency**: up to 4 images compress in parallel (`MAX_CONCURRENT = 4`).
 - **Supported formats**: JPEG, PNG, WebP.
 - **Style**: light mode, white background, blue accent (`#2563eb`).
+
+## Key decisions (gif-compressor)
+
+- Separate tool from image-compressor because `browser-image-compression` goes through canvas and would flatten an animated GIF to its first frame. This one shells out to `gifsicle.run({input, command})` (wasm) so animation survives.
+- Reuses image-compressor's dropzone/queue/card/ZIP markup and CSS wholesale; the differences are the options and the compression call.
+- **Serialized, not parallel**: `gifsicle-wasm-browser` holds a single wasm instance, so `MAX_CONCURRENT` is effectively 1 (`draining` flag + `await` loop) rather than image-compressor's fan-out of 4.
+- `parseGif()` walks the GIF block structure (GCE `0x21 0xf9` → delay, image descriptor `0x2c` → frame) to get frame count + first-frame delay. Needed because gifsicle's `--delete` and `#a-b` frame selection take explicit indices.
+- **Frame range** ("Frames from/to") is 1-based in the UI, emitted as gifsicle's 0-based `1.gif #a-b`. **Keep every Nth frame** emits `--delete` for the rest, with indices relative to what the range already selected, plus `-d(delay*N)` so dropping frames doesn't speed up playback.
+- **Generation counter** (`state.gen`): options can change while a run is in flight, and gifsicle runs are slow. A run that finishes under a stale generation is discarded and requeued, otherwise the visible result can reflect superseded settings. (Image-compressor has no such guard; its runs are fast enough that it hasn't mattered.)
 
 ## Key decisions (qr-code)
 

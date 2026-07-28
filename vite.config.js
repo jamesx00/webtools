@@ -11,6 +11,7 @@ export default defineConfig({
       input: {
         main: page(),
         imageCompressor: page('image-compressor'),
+        gifCompressor: page('gif-compressor'),
         qrCode: page('qr-code'),
         encodeDecode: page('encode-decode'),
         colorTools: page('color-tools'),

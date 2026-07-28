@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>GIF Compressor — Webtools</title>
+    <link rel="stylesheet" href="style.css"/>
+  </head>
+  <body>
+    <div class="app">
+      <a class="back-link" href="../">&larr; Webtools</a>
+      <header class="header">
+        <h1>GIF Compressor</h1>
+        <p class="subtitle">Shrink animated GIFs in your browser with gifsicle. Animation is preserved. Nothing is uploaded.</p>
+      </header>
+
+      <section class="dropzone" id="dropzone" role="button" tabindex="0" aria-label="Drop GIFs here or click to browse">
+        <div class="dropzone__inner">
+          <svg
+            class="dropzone__icon"
+            xmlns="http://www.w3.org/2000/svg"
+            width="48"
+            height="48"
+            viewbox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/> </svg>
+          <p class="dropzone__text">Drop GIFs here or
+            <span class="dropzone__browse">browse</span>
+          </p>
+          <p class="dropzone__hint">Animated and static GIFs supported</p>
+        </div>
+        <input type="file" id="fileInput" accept="image/gif" multiple hidden/>
+      </section>
+
+      <section class="controls">
+        <div class="control-group">
+          <label for="lossy" class="control-label">
+            Lossy
+            <span class="control-value" id="lossyValue">60</span>
+          </label>
+          <input type="range" id="lossy" min="0" max="200" value="60" class="slider"/>
+        </div>
+        <div class="control-group">
+          <label for="colors" class="control-label">Max colors</label>
+          <select id="colors" class="number-input">
+            <option value="0">Keep original</option>
+            <option value="256">256</option>
+            <option value="128">128</option>
+            <option value="64" selected>64</option>
+            <option value="32">32</option>
+            <option value="16">16</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <label for="maxWidth" class="control-label">Max width (px)</label>
+          <input type="number" id="maxWidth" min="1" value="0" class="number-input"/>
+        </div>
+        <div class="control-group">
+          <label for="frameFrom" class="control-label">Frames from</label>
+          <input type="number" id="frameFrom" min="1" placeholder="1" class="number-input"/>
+        </div>
+        <div class="control-group">
+          <label for="frameTo" class="control-label">Frames to</label>
+          <input type="number" id="frameTo" min="1" placeholder="end" class="number-input"/>
+        </div>
+        <div class="control-group">
+          <label for="dropFrames" class="control-label">Keep every Nth frame</label>
+          <select id="dropFrames" class="number-input">
+            <option value="1" selected>All frames</option>
+            <option value="2">Every 2nd</option>
+            <option value="3">Every 3rd</option>
+            <option value="4">Every 4th</option>
+          </select>
+        </div>
+        <div class="control-group control-group--inline">
+          <label for="optimize" class="control-label">Deep optimize (-O3, slower)</label>
+          <input type="checkbox" id="optimize" class="toggle"/>
+        </div>
+      </section>
+
+      <section class="queue" id="queue" hidden>
+        <div class="queue__list" id="queueList"></div>
+        <div class="queue__actions">
+          <button class="btn btn--secondary" id="clearAll">Clear all</button>
+          <button class="btn btn--primary" id="downloadAll">Download all as ZIP</button>
+        </div>
+      </section>
+    </div>
+
+    <script type="module" src="app.js"></script>
+  </body>
+</html>
