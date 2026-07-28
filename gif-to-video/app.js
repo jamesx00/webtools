@@ -175,11 +175,15 @@ async function decodeGif(file) {
     data: await file.arrayBuffer(),
     type: 'image/gif',
   });
-  await decoder.completed; // frameCount is only final once fully buffered
+  // tracks.ready resolves once the track list exists (selectedTrack is null
+  // before that); completed resolves once all data is buffered, which is when
+  // frameCount stops growing.
+  await decoder.tracks.ready;
+  await decoder.completed;
 
   const track = decoder.tracks.selectedTrack;
-  const count = track.frameCount;
-  if (!count) throw new Error('no frames');
+  const count = track ? track.frameCount : 0;
+  if (!count) throw new Error('Couldn\'t read any frames from this GIF');
 
   const frames = [];
   let t = 0;
