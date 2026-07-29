@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>SEO Tags Debugger — Webtools</title>
+    <link rel="stylesheet" href="style.css"/>
+  </head>
+  <body>
+    <div class="app">
+      <a class="back-link" href="../">&larr; Webtools</a>
+      <header class="header">
+        <h1>SEO Tags Debugger</h1>
+        <p class="subtitle">Paste a page's HTML to audit its title, meta, Open Graph, Twitter Card and JSON-LD tags — parsed in your browser.</p>
+      </header>
+
+      <section class="panel">
+        <div class="field">
+          <div class="field__head">
+            <label for="input" class="control-label">Page HTML</label>
+            <button class="btn btn--secondary btn--sm" id="sampleBtn">Load sample</button>
+          </div>
+          <textarea id="input" class="textarea" rows="8" placeholder="Paste the full page source here (View Source &rarr; select all &rarr; copy)&hellip;"></textarea>
+          <p class="note">Browsers can't fetch another site's HTML directly (CORS), so paste the source instead. Only the <code>&lt;head&gt;</code> matters.</p>
+        </div>
+
+        <div class="field">
+          <div class="field__head">
+            <label for="baseUrl" class="control-label">Page URL (optional)</label>
+          </div>
+          <input id="baseUrl" class="textarea" type="url" placeholder="https://example.com/page — used to resolve relative URLs"/>
+        </div>
+      </section>
+
+      <p class="empty" id="empty">Paste some HTML above to see the report.</p>
+
+      <div id="result" hidden>
+        <section class="panel">
+          <h2 class="section-title">Checks</h2>
+          <div id="checks" class="checks"></div>
+        </section>
+
+        <section class="panel">
+          <h2 class="section-title">Previews</h2>
+          <p class="note">Preview images are loaded from their original host.</p>
+          <div class="previews">
+            <div class="preview">
+              <span class="control-label">Google result</span>
+              <div class="serp">
+                <div class="serp__url" id="serpUrl"></div>
+                <div class="serp__title" id="serpTitle"></div>
+                <div class="serp__desc" id="serpDesc"></div>
+              </div>
+            </div>
+            <div class="preview">
+              <span class="control-label">Open Graph (Facebook / LinkedIn)</span>
+              <div class="card">
+                <div class="card__img" id="ogImage"></div>
+                <div class="card__body">
+                  <div class="card__site" id="ogSite"></div>
+                  <div class="card__title" id="ogTitle"></div>
+                  <div class="card__desc" id="ogDesc"></div>
+                </div>
+              </div>
+            </div>
+            <div class="preview">
+              <span class="control-label">Twitter / X card</span>
+              <div class="card card--tw">
+                <div class="card__img" id="twImage"></div>
+                <div class="card__body">
+                  <div class="card__title" id="twTitle"></div>
+                  <div class="card__desc" id="twDesc"></div>
+                  <div class="card__site" id="twSite"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="field__head">
+            <h2 class="section-title">All tags</h2>
+            <button class="btn btn--secondary btn--sm" id="copyBtn">Copy as JSON</button>
+          </div>
+          <div id="tags"></div>
+        </section>
+      </div>
+    </div>
+
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

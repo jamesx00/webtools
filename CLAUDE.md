@@ -21,7 +21,7 @@ npm run build  # production build → dist/
 ## Structure
 
 - `/` — home page (`index.html` + `style.css`) listing all tools as cards.
-- `/image-compressor/`, `/gif-compressor/`, `/gif-to-video/`, `/video-compressor/`, `/qr-code/`, `/encode-decode/`, `/color-tools/`, `/file-hash/`, `/json-formatter/`, `/text-diff/`, `/case-converter/`, `/jwt-decoder/`, `/regex-tester/`, `/cron-parser/`, `/timestamp-converter/`, `/markdown-preview/`, `/csv-json/`, `/lorem-ipsum/`, `/fake-data-generator/`, `/uuid-generator/`, `/image-resizer/`, `/favicon-generator/`, `/svg-optimizer/`, `/image-base64/`, `/exif-viewer/`, `/password-generator/`, `/unit-converter/`, `/css-gradient/` — each a self-contained tool (own `app.js` + `style.css`).
+- `/image-compressor/`, `/gif-compressor/`, `/gif-to-video/`, `/video-compressor/`, `/qr-code/`, `/encode-decode/`, `/color-tools/`, `/file-hash/`, `/json-formatter/`, `/text-diff/`, `/case-converter/`, `/jwt-decoder/`, `/regex-tester/`, `/cron-parser/`, `/timestamp-converter/`, `/markdown-preview/`, `/csv-json/`, `/lorem-ipsum/`, `/fake-data-generator/`, `/uuid-generator/`, `/image-resizer/`, `/favicon-generator/`, `/svg-optimizer/`, `/image-base64/`, `/exif-viewer/`, `/password-generator/`, `/unit-converter/`, `/css-gradient/`, `/seo-tags/` — each a self-contained tool (own `app.js` + `style.css`).
 - Each tool is a real folder with its own `index.html`, listed as an entry in `vite.config.js`'s `rollupOptions.input` so `npm run build` emits it. **New tool = new folder + new entry in `vite.config.js`.**
 - No shared JS between tools; each tool folder is self-contained, including its own `style.css` (duplicated `:root` variables etc.). Only the variable names/patterns are informally shared by convention. The root `style.css` only styles the home page.
 
@@ -98,3 +98,11 @@ All 19 built to the same self-contained-folder convention, no new npm dependenci
 - Split out of lorem-ipsum's original "Fake Data" tab into its own tool; lorem-ipsum is now lorem-only.
 - Field selection via checkboxes (`FIELDS` array of `{id, label}`) — `generatePerson()` always computes the full superset of fields; selection only filters which columns are rendered/exported, so toggling fields doesn't require regenerating data. Default-checked: Full Name, Email, Phone, Street Address, City, Company (matches the original fixed column set).
 - Table headers are rendered dynamically from the selected fields, same for CSV export.
+
+## Key decisions (seo-tags)
+
+- **Paste-the-HTML, not fetch-the-URL**: cross-origin `fetch` of an arbitrary page is blocked by CORS and there's no server, so input is pasted page source. An optional "Page URL" field only supplies a base for resolving relative `og:image`/`canonical` values.
+- Parsing is `DOMParser` + `querySelectorAll`, no regex — meta tags are bucketed by prefix into Open Graph (`og:`/`article:`/`product:`), Twitter (`twitter:`) and everything else.
+- All rendering goes through `textContent`/`createElement` (never `innerHTML`) since the input is untrusted HTML.
+- **Previews load remote images** (og:image / twitter:image) — the one place this tool touches the network; `referrerpolicy="no-referrer"` is set and the behavior is noted in the UI.
+- Checks are `{level, label, detail}` objects sorted fail → warn → ok; Twitter fields fall back to their Open Graph equivalents in both the checks and the preview, matching how X actually resolves them.

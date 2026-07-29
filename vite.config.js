@@ -38,6 +38,7 @@ export default defineConfig({
         passwordGenerator: page('password-generator'),
         unitConverter: page('unit-converter'),
         cssGradient: page('css-gradient'),
+        seoTags: page('seo-tags'),
       },
     },
   },
